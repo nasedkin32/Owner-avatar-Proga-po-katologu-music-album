@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Редактирование альбома</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+  <h2>✏ Редактировать альбом</h2>
+
+  <form method="post">
+    <input name="artist" value="{{ album.artist }}" required>
+    <input name="title" value="{{ album.title }}" required>
+    <input name="genre" value="{{ album.genre }}" required>
+    <input type="number" name="year" value="{{ album.year }}" required>
+    <input type="number" name="rating" min="1" max="5"
+           value="{{ album.rating }}">
+    <button>Сохранить</button>
+  </form>
+
+  <a href="{{ url_for('albums.list_albums') }}">← Назад</a>
+</div>
+
+</body>
+</html>

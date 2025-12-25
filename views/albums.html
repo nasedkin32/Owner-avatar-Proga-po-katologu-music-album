@@ -1,0 +1,51 @@
+<h2>🎵 Музыкальные альбомы</h2>
+
+<form method="get">
+  <input name="genre" placeholder="Жанр">
+  <button>Фильтр</button>
+  <a href="?sort=year">Сортировать по году</a>
+</form>
+
+<ul class="album-list">
+{% for a in albums %}
+<li>
+  <div class="album-artist">{{ a.artist }}</div>
+  <div class="album-title">{{ a.title }}</div>
+  <div class="album-meta">
+    {{ a.genre }} · {{ a.year }} · ⭐ {{ a.rating or "—" }}
+  </div>
+
+  {% if current_user.is_authenticated and current_user.is_admin() %}
+    <div style="margin-top: 12px; display: flex; gap: 10px">
+      
+      <a class="button"
+         href="{{ url_for('albums.edit_album', album_id=a.id) }}">
+        ✏ Редактировать
+      </a>
+
+      <form method="post"
+            action="{{ url_for('albums.delete_album', album_id=a.id) }}">
+        <button class="delete"
+                onclick="return confirm('Удалить альбом?')">
+          🗑 Удалить
+        </button>
+      </form>
+
+    </div>
+  {% endif %}
+</li>
+{% endfor %}
+</ul>
+
+
+<hr>
+
+<h3>➕ Добавить альбом</h3>
+<form method="post">
+  <input name="artist" placeholder="Артист" required>
+  <input name="title" placeholder="Название альбома" required>
+  <input name="genre" placeholder="Жанр" required>
+  <input type="number" name="year" placeholder="Год" required>
+  <input type="number" name="rating" min="1" max="5" placeholder="Оценка">
+  <button>Добавить</button>
+</form>
